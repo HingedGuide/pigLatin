@@ -1,21 +1,18 @@
-def pigLatinSentence(sentence):
-    words = sentence.split()
-    sentence = ""
-    for word in words:
-        if word[0] in ["a","e","i","o","u"]:
-            word += 'way'
-            sentence += word + ' '
+def convert_to_pig_latin(sentence):
+    def convert_word(word):
+        vowels = 'aeiou'
+        if word[0] in vowels:
+            return word + 'way'
         else:
-            to_be_added = ''
-            letter_index = 0
-            while word[letter_index] not in ["a","e","i","o","u"]:
-                to_be_added += word[letter_index]
-                letter_index += 1
-            to_be_added += 'ay'
-            sentence += to_be_added + ' '
-    return sentence
+            for i, char in enumerate(word):
+                if char in vowels:
+                    return word[i:] + word[:i] + 'ay'
+            return word + 'ay'  # In case there are no vowels in the word, not common but just in case.
 
-test1 = 'alfred'
-test2 = 'wall street journal'
+    return ' '.join(convert_word(word) for word in sentence.split())
 
-print(pigLatinSentence(test2))
+
+# Example usage
+sentence = "this is pig latin"
+pig_latin_sentence = convert_to_pig_latin(sentence)
+print(pig_latin_sentence)  # isthay isway igpay atinlay
